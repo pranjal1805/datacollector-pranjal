@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "938043401759",
+    "project_id": "mhealth-notification",
+    "storage_bucket": "mhealth-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938043401759:android:614c4d7a9847a5a1fa572a",
+        "android_client_info": {
+          "package_name": "com.senselab.datacollector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938043401759-fvk4liiogvllintkp812u6s2tjjrve3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDReHmdX3vbNRCIWdqQR3YBJqfeic6h0Rk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938043401759-fvk4liiogvllintkp812u6s2tjjrve3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

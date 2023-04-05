@@ -1,0 +1,89 @@
+name: datacollector
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.1
+  http: ^0.13.4
+  auto_size_text: 3.0.0
+  cached_network_image: ^3.2.3
+  font_awesome_flutter: ^10.3.0
+  google_fonts: ^4.0.3
+  intl: 0.17.0
+  json_path: ^0.4.2
+  page_transition: ^2.0.9
+  timeago: ^3.3.0
+  url_launcher: ^6.1.9
+  percent_indicator: ^4.2.2
+  charts_flutter: ^0.12.0
+  simple_speed_dial: ^0.1.3
+  number_inc_dec: ^0.8.0
+  flutter_svg: ^2.0.0+1
+  curved_navigation_bar: ^1.0.3 #latest version
+  firebase_core: ^2.4.1
+  firebase_messaging: ^14.2.1
+  shared_preferences: ^2.0.17
+  record: ^4.4.4
+  dropdown_search:
+  drop_down_list:
+  searchable_paginated_dropdown:
+  searchable_dropdown:
+  camera:
+  get:
+  google_sign_in: ^6.0.2
+  syncfusion_flutter_charts: ^21.1.37
+  sensors_plus: ^2.0.2
+  awesome_notifications: ^0.7.4+1
+  cron: ^0.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo/Cairo-Black.ttf
+          weight: 900

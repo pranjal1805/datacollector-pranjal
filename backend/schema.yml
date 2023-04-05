@@ -1,0 +1,1143 @@
+openapi: 3.0.3
+info:
+  title: mHealth API
+  version: 1.0.0
+  description: APIs to log sensor data, files, surveys/responses etc
+paths:
+  /api/files/{id}:
+    get:
+      operationId: files_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    put:
+      operationId: files_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/File'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/File'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    patch:
+      operationId: files_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    delete:
+      operationId: files_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/files/{id}{format}:
+    get:
+      operationId: files_formatted_retrieve
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    put:
+      operationId: files_formatted_update
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/File'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/File'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    patch:
+      operationId: files_formatted_partial_update
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFile'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: ''
+    delete:
+      operationId: files_formatted_destroy
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - files
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/insert/:
+    post:
+      operationId: insert_create
+      tags:
+      - insert
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/insert{format}:
+    post:
+      operationId: insert_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - insert
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/insert_analytics/:
+    post:
+      operationId: insert_analytics_create
+      tags:
+      - insert_analytics
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/insert_analytics{format}:
+    post:
+      operationId: insert_analytics_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - insert_analytics
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/notif:
+    post:
+      operationId: notif_create
+      tags:
+      - notif
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+  /api/notif{format}:
+    post:
+      operationId: notif_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - notif
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+  /api/notif/{id}:
+    get:
+      operationId: notif_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+    put:
+      operationId: notif_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+    patch:
+      operationId: notif_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaire'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaire'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaire'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+    delete:
+      operationId: notif_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/notif/{id}{format}:
+    get:
+      operationId: notif_formatted_retrieve
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+    put:
+      operationId: notif_formatted_update
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+    patch:
+      operationId: notif_formatted_partial_update
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaire'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaire'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedQuestionnaire'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+          description: ''
+    delete:
+      operationId: notif_formatted_destroy
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notif
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/query_readings_file/:
+    post:
+      operationId: query_readings_file_create
+      tags:
+      - query_readings_file
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/query_readings_file{format}:
+    post:
+      operationId: query_readings_file_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - query_readings_file
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/response:
+    post:
+      operationId: response_create
+      tags:
+      - response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Response'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Response'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Response'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+  /api/response{format}:
+    post:
+      operationId: response_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Response'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Response'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Response'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+  /api/response/{id}:
+    get:
+      operationId: response_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+    put:
+      operationId: response_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Response'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Response'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Response'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+    patch:
+      operationId: response_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResponse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResponse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResponse'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+    delete:
+      operationId: response_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/response/{id}{format}:
+    get:
+      operationId: response_formatted_retrieve
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+    put:
+      operationId: response_formatted_update
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Response'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Response'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Response'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+    patch:
+      operationId: response_formatted_partial_update
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedResponse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedResponse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedResponse'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: ''
+    delete:
+      operationId: response_formatted_destroy
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - response
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/upload/:
+    post:
+      operationId: upload_create
+      tags:
+      - upload
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/upload{format}:
+    post:
+      operationId: upload_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - upload
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/upload_readings/:
+    post:
+      operationId: upload_readings_create
+      tags:
+      - upload_readings
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/upload_readings{format}:
+    post:
+      operationId: upload_readings_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - upload_readings
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/upload_zip/:
+    post:
+      operationId: upload_zip_create
+      tags:
+      - upload_zip
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/upload_zip{format}:
+    post:
+      operationId: upload_zip_formatted_create
+      parameters:
+      - in: path
+        name: format
+        schema:
+          type: string
+          enum:
+          - .json
+        required: true
+      tags:
+      - upload_zip
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        timestamp:
+          type: string
+          format: date-time
+        file_format:
+          type: string
+          nullable: true
+          maxLength: 255
+        file:
+          type: string
+          format: uri
+        sensor:
+          type: integer
+      required:
+      - file
+      - id
+      - sensor
+      - timestamp
+    PatchedFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        timestamp:
+          type: string
+          format: date-time
+        file_format:
+          type: string
+          nullable: true
+          maxLength: 255
+        file:
+          type: string
+          format: uri
+        sensor:
+          type: integer
+    PatchedQuestionnaire:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        questions:
+          type: object
+          additionalProperties: {}
+        app:
+          type: integer
+          nullable: true
+    PatchedResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        answers:
+          type: object
+          additionalProperties: {}
+        user:
+          type: integer
+        questions:
+          type: integer
+    Questionnaire:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        questions:
+          type: object
+          additionalProperties: {}
+        app:
+          type: integer
+          nullable: true
+      required:
+      - id
+    Response:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        answers:
+          type: object
+          additionalProperties: {}
+        user:
+          type: integer
+        questions:
+          type: integer
+      required:
+      - id
+      - questions
+      - user
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

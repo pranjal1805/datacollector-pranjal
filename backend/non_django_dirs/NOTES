@@ -1,0 +1,20 @@
+NOTES
+
+- Check sql bottleneck
+- sector size
+- 
+
+userid 
+
+start timestamp not known --> way to get this value
+
+time offset instead of end time 
+
+## Data Req
+
+1/10th in terms 
+
+40 users - accel, gro, mag, gps, heart 
+
+accel - 100hz - gro, mag, 
+heart - 0.5Hz
