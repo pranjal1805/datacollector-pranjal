@@ -18,7 +18,7 @@ List<List<String>> items = [
   ['Chicken','Fish','Biryani','Paneer','Veggies','Salad','Malai kofta','Kadi','Naan','Sambar','Aloo Paratha', 'Manchurian','Noodles','Pizza','Burger','Sabudana wada','Kulche'],
   ['Samosa','Pakora','Vada Pav','Paani Puri','Aloo tikki','Dhokla','Samosa Chaat','Chana Chaat','Momos','Honey Chilly Potato','Burger','Pizza','Kachori','Bhel Puri','Bakery','Chips','Namkeen']
 ];
-List<String> dropdownValue =[];
+List<List<String>> dropdownValues =[[],[],[],[]];
 class NewFoodTrackerScreen extends StatefulWidget {
   @override
   State<NewFoodTrackerScreen> createState() => _NewFoodTrackerScreenState();
@@ -84,17 +84,18 @@ class _NewFoodTrackerScreenState extends State<NewFoodTrackerScreen> {
                             Container(
                               width: 225,
                               height:75,
-                             child:   SearchableDropdown<String>(
-                                  hintText: const Text('List of items'),
-                                  margin: const EdgeInsets.all(15),
-                               items: items[index].map((item) =>
-                                   SearchableDropdownMenuItem(
-                                     value: item,
-                                     child: Text(item), label: '$item',
-                                   ),
-                               ).toList(),
-
-                                )
+                             child:
+                             DropdownSearch<String>.multiSelection(
+                               items: items[index],
+                               popupProps: PopupPropsMultiSelection.menu(
+                                 showSelectedItems: true,
+                               ),
+                               onChanged: (List<String> data)=>{
+                                 dropdownValues[index]=data,
+                                 print(dropdownValues)
+                               },
+                               selectedItems: dropdownValues[index],
+                             )
                             ),
                           ],
                         ),
