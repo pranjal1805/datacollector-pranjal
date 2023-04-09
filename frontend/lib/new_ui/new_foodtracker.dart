@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:datacollector/screens/activityTracker.dart';
 import 'package:datacollector/screens/loggingFood.dart';
 import 'package:datacollector/widgets/config.dart';
@@ -9,16 +11,94 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:drop_down_list/drop_down_list.dart';
+
 // import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:searchable_paginated_dropdown/searchable_paginated_dropdown.dart';
 
+import '../utils/data_store_local.dart';
+
 List<List<String>> items = [
-  ['Idli','Dosa','Poha','Upma','Paratha','Kachori','Kulcha','Appam','Dhokla','Methi paratha','Aloo puri','Samosa','Masala omelette','Sabudana khichdi','Uttapam','Bread pakora','Chole bhature'],
-  ['Butter Chicken','Biryani','Rice','Sambar','Puri Bhaji','Baingan Bharta','Fish Curry','Pork','Aloo Paratha','Paneer Tikka','Vegetable Pulao','Rogan Josh','Chana Masala','Palak Paneer','Paneer','Tandoori Chicken', 'Dal Makhani','Chicken Tikka Masala'],
-  ['Chicken','Fish','Biryani','Paneer','Veggies','Salad','Malai kofta','Kadi','Naan','Sambar','Aloo Paratha', 'Manchurian','Noodles','Pizza','Burger','Sabudana wada','Kulche'],
-  ['Samosa','Pakora','Vada Pav','Paani Puri','Aloo tikki','Dhokla','Samosa Chaat','Chana Chaat','Momos','Honey Chilly Potato','Burger','Pizza','Kachori','Bhel Puri','Bakery','Chips','Namkeen']
+  [
+    'Idli',
+    'Dosa',
+    'Poha',
+    'Upma',
+    'Paratha',
+    'Kachori',
+    'Kulcha',
+    'Appam',
+    'Dhokla',
+    'Methi paratha',
+    'Aloo puri',
+    'Samosa',
+    'Masala omelette',
+    'Sabudana khichdi',
+    'Uttapam',
+    'Bread pakora',
+    'Chole bhature'
+  ],
+  [
+    'Butter Chicken',
+    'Biryani',
+    'Rice',
+    'Sambar',
+    'Puri Bhaji',
+    'Baingan Bharta',
+    'Fish Curry',
+    'Pork',
+    'Aloo Paratha',
+    'Paneer Tikka',
+    'Vegetable Pulao',
+    'Rogan Josh',
+    'Chana Masala',
+    'Palak Paneer',
+    'Paneer',
+    'Tandoori Chicken',
+    'Dal Makhani',
+    'Chicken Tikka Masala'
+  ],
+  [
+    'Chicken',
+    'Fish',
+    'Biryani',
+    'Paneer',
+    'Veggies',
+    'Salad',
+    'Malai kofta',
+    'Kadi',
+    'Naan',
+    'Sambar',
+    'Aloo Paratha',
+    'Manchurian',
+    'Noodles',
+    'Pizza',
+    'Burger',
+    'Sabudana wada',
+    'Kulche'
+  ],
+  [
+    'Samosa',
+    'Pakora',
+    'Vada Pav',
+    'Paani Puri',
+    'Aloo tikki',
+    'Dhokla',
+    'Samosa Chaat',
+    'Chana Chaat',
+    'Momos',
+    'Honey Chilly Potato',
+    'Burger',
+    'Pizza',
+    'Kachori',
+    'Bhel Puri',
+    'Bakery',
+    'Chips',
+    'Namkeen'
+  ]
 ];
-List<List<String>> dropdownValues =[[],[],[],[]];
+String fileName = "food_data.txt";
+List<List<String>> dropdownValues = [[], [], [], []];
+
 class NewFoodTrackerScreen extends StatefulWidget {
   @override
   State<NewFoodTrackerScreen> createState() => _NewFoodTrackerScreenState();
@@ -27,6 +107,7 @@ class NewFoodTrackerScreen extends StatefulWidget {
 class _NewFoodTrackerScreenState extends State<NewFoodTrackerScreen> {
   List<String> timeIntervalList = ["Breakfast", "Lunch", "Dinner", "Snacks"];
   int _itemCount = 0;
+  var localStorage = LocalStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -82,21 +163,19 @@ class _NewFoodTrackerScreenState extends State<NewFoodTrackerScreen> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Container(
-                              width: 225,
-                              height:75,
-                             child:
-                             DropdownSearch<String>.multiSelection(
-                               items: items[index],
-                               popupProps: PopupPropsMultiSelection.menu(
-                                 showSelectedItems: true,
-                               ),
-                               onChanged: (List<String> data)=>{
-                                 dropdownValues[index]=data,
-                                 print(dropdownValues)
-                               },
-                               selectedItems: dropdownValues[index],
-                             )
-                            ),
+                                width: 225,
+                                height: 75,
+                                child: DropdownSearch<String>.multiSelection(
+                                  items: items[index],
+                                  popupProps: PopupPropsMultiSelection.menu(
+                                    showSelectedItems: true,
+                                  ),
+                                  onChanged: (List<String> data) => {
+                                    dropdownValues[index] = data,
+                                    print(dropdownValues)
+                                  },
+                                  selectedItems: dropdownValues[index],
+                                )),
                           ],
                         ),
                       )
@@ -104,6 +183,13 @@ class _NewFoodTrackerScreenState extends State<NewFoodTrackerScreen> {
                   ),
                 );
               }),
+          ElevatedButton(
+              child: const Text("Submit"),
+              onPressed: () {
+                String data=jsonEncode(dropdownValues);
+                localStorage.writeFile(data, fileName);
+              }
+          )
         ],
       ),
     );
