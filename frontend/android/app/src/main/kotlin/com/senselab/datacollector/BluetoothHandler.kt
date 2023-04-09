@@ -39,17 +39,17 @@ class BluetoothHandler : Application() {
 
         private val PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             arrayOf(
-                Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.BLUETOOTH,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.BLUETOOTH_ADMIN,
-                Manifest.permission.BLUETOOTH_SCAN
+                    Manifest.permission.BLUETOOTH_CONNECT,
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.BLUETOOTH_SCAN
             )
         } else {
             arrayOf(
-                Manifest.permission.BLUETOOTH,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.BLUETOOTH_ADMIN,
             )
         }
     }
@@ -60,7 +60,7 @@ class BluetoothHandler : Application() {
             Log.d(TAG, "ASKING FOR PERMISSION")
             try {
                 ActivityCompat.requestPermissions(
-                    activity!!, PERMISSIONS, PERMISSION_ALL
+                        activity!!, PERMISSIONS, PERMISSION_ALL
                 )
             } catch (e: Error) {
                 Log.d(TAG, "ASKING FOR PERMISSION : $e")
@@ -72,9 +72,9 @@ class BluetoothHandler : Application() {
         if (context != null) {
             for (permission in permissions) {
                 if (ActivityCompat.checkSelfPermission(
-                        context,
-                        permission!!
-                    ) != PackageManager.PERMISSION_GRANTED
+                                context,
+                                permission!!
+                        ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     return false
                 } else {
@@ -88,7 +88,7 @@ class BluetoothHandler : Application() {
     fun initHandler(context: Context) {
         try {
             bluetoothManager =
-                ContextCompat.getSystemService(context, BluetoothManager::class.java)
+                    ContextCompat.getSystemService(context, BluetoothManager::class.java)
             bluetoothAdapter = bluetoothManager?.adapter
         } catch (e: Error) {
             Log.d(TAG, "initBT: $e")
@@ -105,9 +105,9 @@ class BluetoothHandler : Application() {
             Log.d(TAG, "initBT: enable BT")
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.BLUETOOTH_CONNECT
-                ) != PackageManager.PERMISSION_GRANTED
+                            this,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 checkPermissions(currentActivity, this)
             }
@@ -136,24 +136,24 @@ class BluetoothHandler : Application() {
             handler.postDelayed({
                 scanning = false
                 if (ActivityCompat.checkSelfPermission(
-                        context,
-                        Manifest.permission.BLUETOOTH_SCAN
-                    ) != PackageManager.PERMISSION_GRANTED
+                                context,
+                                Manifest.permission.BLUETOOTH_SCAN
+                        ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     checkPermissions(currentActivity, context)
                 }
                 bluetoothLeScanner?.stopScan(
-                    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-                    object : ScanCallback() {
-                        override fun onScanResult(callbackType: Int, result: ScanResult) {
-                            super.onScanResult(callbackType, result)
-                            Log.d(SCAN_TAG, "onScanResult: $result")
-                            if (!deviceList.contains(result.device)) {
-                                deviceList.add(result.device)
-                                deviceIds.add(result.device.address)
+                        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+                        object : ScanCallback() {
+                            override fun onScanResult(callbackType: Int, result: ScanResult) {
+                                super.onScanResult(callbackType, result)
+                                Log.d(SCAN_TAG, "onScanResult: $result")
+                                if (!deviceList.contains(result.device)) {
+                                    deviceList.add(result.device)
+                                    deviceIds.add(result.device.address)
+                                }
                             }
-                        }
-                    })
+                        })
 
             }, SCAN_PERIOD)
             scanning = true
@@ -209,9 +209,9 @@ class BluetoothHandler : Application() {
             builder.setItems(deviceIds.toTypedArray()) { _, which ->
                 Log.d("DATA_COLLECTOR_BT", "ITEM CLICKED : $which")
                 Toast.makeText(
-                    context,
-                    "Connecting to " + deviceIds[which],
-                    Toast.LENGTH_SHORT
+                        context,
+                        "Connecting to " + deviceIds[which],
+                        Toast.LENGTH_SHORT
                 ).show()
                 connectDeviceToGattServer(which, context)
             }
@@ -224,19 +224,19 @@ class BluetoothHandler : Application() {
         Toast.makeText(context, "Establishing GATT", Toast.LENGTH_SHORT).show()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.BLUETOOTH_CONNECT
-                ) != PackageManager.PERMISSION_GRANTED
+                            context,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 checkPermissions(currentActivity, this)
             }
             try {
                 Log.d("DATA_COLLECTOR_BT", "Trying ")
                 deviceList.toMutableList()[which].connectGatt(
-                    context,
-                    false,
-                    gattCallback,
-                    BluetoothDevice.TRANSPORT_LE
+                        context,
+                        false,
+                        gattCallback,
+                        BluetoothDevice.TRANSPORT_LE
                 )
             } catch (e: Error) {
                 Log.d("DATA_COLLECTOR_BT", "OOPS ERROR: $e ")
@@ -259,9 +259,9 @@ class BluetoothHandler : Application() {
                     mBluetoothGatt = gatt
                     Handler(Looper.getMainLooper()).post {
                         if (ActivityCompat.checkSelfPermission(
-                                context,
-                                Manifest.permission.BLUETOOTH_CONNECT
-                            ) != PackageManager.PERMISSION_GRANTED
+                                        context,
+                                        Manifest.permission.BLUETOOTH_CONNECT
+                                ) != PackageManager.PERMISSION_GRANTED
                         ) {
                             checkPermissions(currentActivity, applicationContext)
                         }
@@ -274,22 +274,22 @@ class BluetoothHandler : Application() {
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Log.w("BluetoothGattCallback", "Successfully disconnected from $deviceAddress")
                     Toast.makeText(
-                        applicationContext,
-                        "Successfully disconnected from $deviceAddress",
-                        Toast.LENGTH_SHORT
+                            applicationContext,
+                            "Successfully disconnected from $deviceAddress",
+                            Toast.LENGTH_SHORT
                     ).show()
                     gatt.close()
                 }
             } else {
                 Log.w(
-                    "BluetoothGattCallback",
-                    "Error $status encountered for $deviceAddress! Disconnecting..."
+                        "BluetoothGattCallback",
+                        "Error $status encountered for $deviceAddress! Disconnecting..."
                 )
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(
-                        applicationContext,
-                        "Error $status encountered for $deviceAddress! Disconnecting...",
-                        Toast.LENGTH_SHORT
+                            applicationContext,
+                            "Error $status encountered for $deviceAddress! Disconnecting...",
+                            Toast.LENGTH_SHORT
                     ).show()
                     gatt.close()
                 }
@@ -300,8 +300,8 @@ class BluetoothHandler : Application() {
 
             with(gatt) {
                 Log.w(
-                    "BluetoothGattCallback",
-                    "Discovered ${services.size} services for ${device.address}"
+                        "BluetoothGattCallback",
+                        "Discovered ${services.size} services for ${device.address}"
                 )
                 printGattTable() // See implementation just above this section
                 // Consider connection setup as complete here
@@ -310,16 +310,16 @@ class BluetoothHandler : Application() {
         }
 
         override fun onCharacteristicRead(
-            gatt: BluetoothGatt,
-            characteristic: BluetoothGattCharacteristic,
-            status: Int
+                gatt: BluetoothGatt,
+                characteristic: BluetoothGattCharacteristic,
+                status: Int
         ) {
             with(characteristic) {
                 when (status) {
                     BluetoothGatt.GATT_SUCCESS -> {
                         Log.i(
-                            "BluetoothGattCallback",
-                            "Read characteristic $uuid:\n${value}"
+                                "BluetoothGattCallback",
+                                "Read characteristic $uuid:\n${value}"
                         )
                     }
                     BluetoothGatt.GATT_READ_NOT_PERMITTED -> {
@@ -327,8 +327,8 @@ class BluetoothHandler : Application() {
                     }
                     else -> {
                         Log.e(
-                            "BluetoothGattCallback",
-                            "Characteristic read failed for $uuid, error: $status"
+                                "BluetoothGattCallback",
+                                "Characteristic read failed for $uuid, error: $status"
                         )
                     }
                 }
@@ -336,16 +336,16 @@ class BluetoothHandler : Application() {
         }
 
         override fun onCharacteristicWrite(
-            gatt: BluetoothGatt,
-            characteristic: BluetoothGattCharacteristic,
-            status: Int
+                gatt: BluetoothGatt,
+                characteristic: BluetoothGattCharacteristic,
+                status: Int
         ) {
             with(characteristic) {
                 when (status) {
                     BluetoothGatt.GATT_SUCCESS -> {
                         Log.i(
-                            "BluetoothGattCallback",
-                            "Wrote to characteristic $uuid | value: $value"
+                                "BluetoothGattCallback",
+                                "Wrote to characteristic $uuid | value: $value"
                         )
                     }
                     BluetoothGatt.GATT_INVALID_ATTRIBUTE_LENGTH -> {
@@ -356,8 +356,8 @@ class BluetoothHandler : Application() {
                     }
                     else -> {
                         Log.e(
-                            "BluetoothGattCallback",
-                            "Characteristic write failed for $uuid, error: $status"
+                                "BluetoothGattCallback",
+                                "Characteristic write failed for $uuid, error: $status"
                         )
                     }
                 }
@@ -365,8 +365,8 @@ class BluetoothHandler : Application() {
         }
 
         override fun onCharacteristicChanged(
-            gatt: BluetoothGatt?,
-            characteristic: BluetoothGattCharacteristic?
+                gatt: BluetoothGatt?,
+                characteristic: BluetoothGattCharacteristic?
         ) {
             super.onCharacteristicChanged(gatt, characteristic)
             Log.d("BLE_CHARACTER_CHANGED", characteristic.toString())
@@ -376,19 +376,19 @@ class BluetoothHandler : Application() {
     private fun BluetoothGatt.printGattTable() {
         if (services.isEmpty()) {
             Log.i(
-                "printGattTable",
-                "No service and characteristic available, call discoverServices() first?"
+                    "printGattTable",
+                    "No service and characteristic available, call discoverServices() first?"
             )
             return
         }
         services.forEach { service ->
             val characteristicsTable = service.characteristics.joinToString(
-                separator = "\n|--",
-                prefix = "|--"
+                    separator = "\n|--",
+                    prefix = "|--"
             ) { it.uuid.toString() }
             Log.i(
-                "printGattTable",
-                "\nService ${service.uuid}\nCharacteristics:\n$characteristicsTable"
+                    "printGattTable",
+                    "\nService ${service.uuid}\nCharacteristics:\n$characteristicsTable"
             )
         }
     }
@@ -400,9 +400,9 @@ class BluetoothHandler : Application() {
                 return
             }
             if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.BLUETOOTH_CONNECT
-                ) != PackageManager.PERMISSION_GRANTED
+                            this,
+                            Manifest.permission.BLUETOOTH_CONNECT
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 checkPermissions(currentActivity, this)
                 return
@@ -412,7 +412,7 @@ class BluetoothHandler : Application() {
             connectionStatus = BluetoothProfile.STATE_DISCONNECTED
         } else {
             Toast.makeText(applicationContext, "Connect to a device first!", Toast.LENGTH_SHORT)
-                .show()
+                    .show()
 
         }
     }
@@ -437,11 +437,11 @@ class BluetoothHandler : Application() {
 
         if (lastDeviceAddress != null) {
             Toast.makeText(
-                applicationContext,
-                "$lastDeviceAddress was connected last",
-                Toast.LENGTH_SHORT
+                    applicationContext,
+                    "$lastDeviceAddress was connected last",
+                    Toast.LENGTH_SHORT
             )
-                .show()
+                    .show()
         } else {
             Toast.makeText(applicationContext, "No device found", Toast.LENGTH_SHORT).show()
         }

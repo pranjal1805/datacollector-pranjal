@@ -113,7 +113,7 @@ class SensorService : Service(), SensorEventListener {
     fun switchPPG(action: Boolean) {
         ppgValues = ArrayList()
         findPPG()
-        val ppgSensor: Sensor? = sensorManager.getDefaultSensor(ppgType)
+        val ppgSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE)
 
         when (action) {
             true -> ppgSensor.also { ppg ->
@@ -155,27 +155,31 @@ class SensorService : Service(), SensorEventListener {
 
     override fun onSensorChanged(p0: SensorEvent?) {
         if (p0 != null) {
-            axisX = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
-            axisY = BigDecimal(p0.values[1].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
-            axisZ = BigDecimal(p0.values[2].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
-            ppgX = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
-            ppgT = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
-
             when (p0.sensor.type) {
                 Sensor.TYPE_GYROSCOPE -> {
+                    axisX = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    axisY = BigDecimal(p0.values[1].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    axisZ = BigDecimal(p0.values[2].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
                     Log.d(TAG, "GYROSCOPE: $axisX, $axisY, $axisZ")
                     addGyroEntry()
                 }
                 Sensor.TYPE_ACCELEROMETER -> {
+                    axisX = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    axisY = BigDecimal(p0.values[1].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    axisZ = BigDecimal(p0.values[2].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
                     Log.d(TAG, "ACCELEROMETER: $axisX, $axisY, $axisZ")
                     addAccelEntry()
                 }
                 Sensor.TYPE_MAGNETIC_FIELD -> {
+                    axisX = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    axisY = BigDecimal(p0.values[1].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    axisZ = BigDecimal(p0.values[2].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
                     Log.d(TAG, "MAGNETOMETER: $axisX, $axisY, $axisZ")
                     addMagnetoEntry()
                 }
-                ppgType -> {
-                    Log.d(TAG, "PPG: $ppgX, $ppgT")
+                Sensor.TYPE_HEART_RATE -> {
+                    ppgX = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    Log.d(TAG, "PPG: $ppgX")
                     addPPGEntry()
                 }
             }
@@ -183,7 +187,7 @@ class SensorService : Service(), SensorEventListener {
     }
 
     private fun addPPGEntry() {
-        ppgValues.add("$ppgX, $ppgT, ${System.currentTimeMillis()}")
+        ppgValues.add("$ppgX, ${System.currentTimeMillis()}")
         addFileEntry("ppg")
     }
 

@@ -25,11 +25,12 @@ class MainActivity : FlutterActivity() {
 
         @RequiresApi(Build.VERSION_CODES.S)
         private val PERMISSIONS = arrayOf(
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
-            Manifest.permission.BLUETOOTH_SCAN
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BODY_SENSORS
         )
     }
 
@@ -68,8 +69,8 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
 
         MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            CHANNEL
+                flutterEngine.dartExecutor.binaryMessenger,
+                CHANNEL
         ).setMethodCallHandler { call, _ ->
             when (call.method) {
                 "serviceOff" -> stopService(sensorServiceIntent)
@@ -85,8 +86,8 @@ class MainActivity : FlutterActivity() {
         }
 
         MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            BLUETOOTH_CHANNEL
+                flutterEngine.dartExecutor.binaryMessenger,
+                BLUETOOTH_CHANNEL
         ).setMethodCallHandler { call, _ ->
             if (call.method == "getBluetoothDevices") {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

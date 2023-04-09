@@ -36,21 +36,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email',
-                ),
-              ),
-              SizedBox(height: 10),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
+              // TextField(
+              //   obscureText: true,
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(),
+              //     labelText: 'Email',
+              //   ),
+              // ),
+              // SizedBox(height: 10),
+              // TextField(
+              //   obscureText: true,
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(),
+              //     labelText: 'Password',
+              //   ),
+              // ),
               TextButton(
                 style: ButtonStyle(
                   foregroundColor:

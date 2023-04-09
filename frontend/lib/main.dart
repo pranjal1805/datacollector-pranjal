@@ -36,7 +36,7 @@ void main() async {
 
   final cron =Cron();
   //'0/5 * * * * *' every 5 seconds
-  cron.schedule(Schedule.parse('* * */2 * * *'), () async => {
+  cron.schedule(Schedule.parse('0 */2 * * *'), () async => {
     await AwesomeNotifications().createNotification(
         content: NotificationContent(
             id: 10,
