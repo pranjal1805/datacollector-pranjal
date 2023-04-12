@@ -29,6 +29,7 @@ class BluetoothHandler : Application() {
     private var mBluetoothGatt: BluetoothGatt? = null
     private var connectionStatus = BluetoothProfile.STATE_DISCONNECTED
     private lateinit var context: Context
+    private lateinit var activity: Activity
 
 
     companion object {
@@ -97,12 +98,13 @@ class BluetoothHandler : Application() {
         }
     }
 
-    fun initBT(context: Context) {
+    fun initBT(context: Context, activity: Activity) {
         if (bluetoothAdapter == null) {
             Log.d(TAG, "initBT: NO BLUETOOTH")
             return
         }
         this.context = context
+        this.activity = activity
         if (!bluetoothAdapter!!.isEnabled) {
             Log.d(TAG, "initBT: enable BT")
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -189,7 +191,6 @@ class BluetoothHandler : Application() {
                 })
             }
         }
-        Log.d(SCAN_TAG, "Finished Scanning")
     }
 
     fun showScannedDevices(context: Context) {
@@ -205,7 +206,7 @@ class BluetoothHandler : Application() {
             Log.d(SCAN_TAG, deviceList.toString())
             Toast.makeText(context, "Scanned list is empty", Toast.LENGTH_SHORT).show()
         } else {
-            val builder = AlertDialog.Builder(applicationContext)
+            val builder = AlertDialog.Builder(activity)
 
             builder.setCancelable(true)
             builder.setTitle("Choose a device to connect")
@@ -231,7 +232,7 @@ class BluetoothHandler : Application() {
                             Manifest.permission.BLUETOOTH_CONNECT
                     ) != PackageManager.PERMISSION_GRANTED
             ) {
-                checkPermissions(currentActivity, this)
+                checkPermissions(currentActivity, context)
             }
             try {
                 Log.d("DATA_COLLECTOR_BT", "Trying ")
@@ -266,7 +267,7 @@ class BluetoothHandler : Application() {
                                         Manifest.permission.BLUETOOTH_CONNECT
                                 ) != PackageManager.PERMISSION_GRANTED
                         ) {
-                            checkPermissions(currentActivity, applicationContext)
+                            checkPermissions(activity, context)
                         }
                         mBluetoothGatt?.discoverServices()
                     }

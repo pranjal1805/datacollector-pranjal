@@ -93,7 +93,7 @@ class MainActivity : FlutterActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     bluetoothHandler.checkPermissions(activity, applicationContext)
                     bluetoothHandler.initHandler(applicationContext)
-                    bluetoothHandler.initBT(applicationContext)
+                    bluetoothHandler.initBT(applicationContext, activity)
                 }
             }
             if (call.method == "showScannedDevices") {
