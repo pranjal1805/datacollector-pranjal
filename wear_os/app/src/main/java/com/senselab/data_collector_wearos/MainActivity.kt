@@ -36,10 +36,17 @@ class MainActivity : Activity() {
 
         binding.accelButton.setOnClickListener {
             sensorServiceIntent = Intent(this, SensorService::class.java).also { intent ->
-                bindService(intent, serviceConnection, BIND_AUTO_CREATE)
+                bindService(intent, accelDataConnection, BIND_AUTO_CREATE)
             }
             startForegroundService(sensorServiceIntent)
 
+        }
+
+        binding.heartRateButton.setOnClickListener {
+            sensorServiceIntent = Intent(this, SensorService::class.java).also { intent ->
+                bindService(intent, hearRateDataConnection, BIND_AUTO_CREATE)
+            }
+                startForegroundService(sensorServiceIntent)
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -105,12 +112,24 @@ class MainActivity : Activity() {
 
     }
 
-    private val serviceConnection = object : ServiceConnection {
+    private val accelDataConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
             val binder = service as SensorService.SensorServiceBinder
             mService = binder.getSensorService()
             mBound = true
             mService.switchAccel(true)
+        }
+
+        override fun onServiceDisconnected(className: ComponentName?) {
+            mBound = false
+        }
+    }
+    private val hearRateDataConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
+            val binder = service as SensorService.SensorServiceBinder
+            mService = binder.getSensorService()
+            mBound = true
+            mService.switchPPG(true)
         }
 
         override fun onServiceDisconnected(className: ComponentName?) {
