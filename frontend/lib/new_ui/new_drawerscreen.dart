@@ -17,107 +17,103 @@ class _NewDrawerScreenState extends State<NewDrawerScreen> {
     return Container(
         color: primaryGreen,
         padding: EdgeInsets.only(top: 50, left: 10, bottom: 50),
-        child: Column(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('User Name',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        Text(
-                          'User status',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Column(
-                  children: drawerItems
-                      .map((e) => Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: InkWell(
-                              onTap: () {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text(e['title'] + ' pressed'),
-                                ));
-                                if (e['title'] == 'Tracker') {
-                                  Navigator.pushNamed(context, '/settings');
-                                } else if (e['title'] == 'Models') {
-                                  Navigator.pushNamed(context, '/models');
-                                } else if (e['title'] ==
-                                    'Location and Emotion') {
-                                  Navigator.pushNamed(context, '/location');
-                                }
-                              },
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      e['icon'],
-                                      color: Colors.white,
-                                      size: 30,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      e['title'],
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
+              Row(
+                children: [
+                  CircleAvatar(),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('User Name',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
+                      Text(
+                        'User status',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              Column(
+                children: drawerItems
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: InkWell(
+                            onTap: () {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(e['title'] + ' pressed'),
+                              ));
+                              if (e['title'] == 'Tracker') {
+                                Navigator.pushNamed(context, '/settings');
+                              } else if (e['title'] == 'Models') {
+                                Navigator.pushNamed(context, '/models');
+                              } else if (e['title'] == 'Location and Emotion') {
+                                Navigator.pushNamed(context, '/location');
+                              }
+                            },
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    e['icon'],
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    e['title'],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
                               ),
                             ),
-                          ))
-                      .toList(),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.settings_outlined,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('Settings',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      width: 2,
-                      height: 20,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('Logout',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                  ],
-                )
-              ],
-            ),
-          )
-        ]));
+                          ),
+                        ))
+                    .toList(),
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.settings_outlined,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text('Settings',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    width: 2,
+                    height: 20,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text('Logout',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                ],
+              )
+            ],
+          ),
+        ));
   }
 }
