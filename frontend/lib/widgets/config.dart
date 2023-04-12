@@ -6,8 +6,8 @@ List<BoxShadow> shadowList = [
 ];
 
 List<Map> drawerItems = [
-  {'icon': Icons.note_add, 'title': 'Tracker'},
   {'icon': Icons.home, 'title': 'Home'},
+  {'icon': Icons.note_add, 'title': 'Tracker'},
   {'icon': Icons.doorbell, 'title': 'Reminders'},
   {'icon': Icons.watch, 'title': 'Devices'},
   {'icon': Icons.emoji_events_outlined, 'title': 'Achievements'},

@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
       home: Scaffold(
         body: Container(
           margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: SafeArea(
+          child: SingleChildScrollView(
               child: Column(
             children: [
               SizedBox(
@@ -36,21 +36,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              // TextField(
-              //   obscureText: true,
-              //   decoration: InputDecoration(
-              //     border: OutlineInputBorder(),
-              //     labelText: 'Email',
-              //   ),
-              // ),
-              // SizedBox(height: 10),
-              // TextField(
-              //   obscureText: true,
-              //   decoration: InputDecoration(
-              //     border: OutlineInputBorder(),
-              //     labelText: 'Password',
-              //   ),
-              // ),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
+                ),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                ),
+              ),
               TextButton(
                 style: ButtonStyle(
                   foregroundColor:

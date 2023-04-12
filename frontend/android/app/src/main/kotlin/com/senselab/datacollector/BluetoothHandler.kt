@@ -42,6 +42,7 @@ class BluetoothHandler : Application() {
                     Manifest.permission.BLUETOOTH_CONNECT,
                     Manifest.permission.BLUETOOTH,
                     Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.BLUETOOTH_ADMIN,
                     Manifest.permission.BLUETOOTH_SCAN
             )
@@ -49,6 +50,7 @@ class BluetoothHandler : Application() {
             arrayOf(
                     Manifest.permission.BLUETOOTH,
                     Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.BLUETOOTH_ADMIN,
             )
         }
@@ -147,10 +149,10 @@ class BluetoothHandler : Application() {
                         object : ScanCallback() {
                             override fun onScanResult(callbackType: Int, result: ScanResult) {
                                 super.onScanResult(callbackType, result)
-                                Log.d(SCAN_TAG, "onScanResult: $result")
-                                if (!deviceList.contains(result.device)) {
-                                    deviceList.add(result.device)
-                                    deviceIds.add(result.device.address)
+                                if (!deviceList.contains(result.getDevice())) {
+                                    Log.d(SCAN_TAG, "onScanResult: $result")
+                                    deviceList.add(result.getDevice())
+                                    deviceIds.add(result.getDevice().getAddress())
                                 }
                             }
                         })
@@ -164,10 +166,10 @@ class BluetoothHandler : Application() {
                 bluetoothLeScanner?.startScan(object : ScanCallback() {
                     override fun onScanResult(callbackType: Int, result: ScanResult) {
                         super.onScanResult(callbackType, result)
-                        Log.d(SCAN_TAG, "onScanResult: $result")
-                        if (!deviceList.contains(result.device)) {
-                            deviceList.add(result.device)
-                            deviceIds.add(result.device.address)
+                        if (!deviceList.contains(result.getDevice())) {
+                            Log.d(SCAN_TAG, "onScanResult: $result")
+                            deviceList.add(result.getDevice())
+                            deviceIds.add(result.getDevice().getAddress())
                         }
                     }
                 })
@@ -178,15 +180,16 @@ class BluetoothHandler : Application() {
                 bluetoothLeScanner?.stopScan(object : ScanCallback() {
                     override fun onScanResult(callbackType: Int, result: ScanResult) {
                         super.onScanResult(callbackType, result)
-                        Log.d(SCAN_TAG, "onScanResult: $result")
-                        if (!deviceList.contains(result.device)) {
-                            deviceList.add(result.device)
-                            deviceIds.add(result.device.address)
+                        if (!deviceList.contains(result.getDevice())) {
+                            Log.d(SCAN_TAG, "onScanResult: $result")
+                            deviceList.add(result.getDevice())
+                            deviceIds.add(result.getDevice().getAddress())
                         }
                     }
                 })
             }
         }
+        Log.d(SCAN_TAG, "Finished Scanning")
     }
 
     fun showScannedDevices(context: Context) {
@@ -202,7 +205,7 @@ class BluetoothHandler : Application() {
             Log.d(SCAN_TAG, deviceList.toString())
             Toast.makeText(context, "Scanned list is empty", Toast.LENGTH_SHORT).show()
         } else {
-            val builder = AlertDialog.Builder(context)
+            val builder = AlertDialog.Builder(applicationContext)
 
             builder.setCancelable(true)
             builder.setTitle("Choose a device to connect")
