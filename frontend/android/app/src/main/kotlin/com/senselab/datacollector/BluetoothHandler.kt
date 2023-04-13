@@ -394,12 +394,14 @@ class BluetoothHandler : Application() {
                     "printGattTable",
                     "\nService ${service.uuid}\nCharacteristics:\n$characteristicsTable"
             )
+            var x = 1
             service.characteristics.forEach{characteristic->
-                var data = characteristic.getValue()?:byteArrayOf(0x48, 101, 108, 108, 111)
-                context.openFileOutput("accelerometer.txt", Activity.MODE_PRIVATE).use {
+                val data = characteristic.getValue()?:byteArrayOf(0x48, 101, 108, 108, 111)
+                context.openFileOutput("accelerometer$x.txt", Activity.MODE_PRIVATE).use {
                     it?.write(data)
                     Log.d(TAG, "addFileEntry: added gatt entry in accelerometer")
                 }
+                x++
             }
         }
     }
