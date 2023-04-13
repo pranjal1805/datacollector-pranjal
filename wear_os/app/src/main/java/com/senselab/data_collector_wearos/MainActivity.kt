@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.senselab.data_collector_wearos.databinding.ActivityMainBinding
+import java.io.File
 import java.util.*
 
 class MainActivity : Activity() {
@@ -26,6 +27,7 @@ class MainActivity : Activity() {
     private lateinit var sensorServiceIntent: Intent
     private lateinit var mService: SensorService
     private var mBound: Boolean = false
+    private val accelUid=UUID.randomUUID()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,10 +99,15 @@ class MainActivity : Activity() {
                 BluetoothGattService.SERVICE_TYPE_PRIMARY
             )
             val characteristic = BluetoothGattCharacteristic(
-                UUID.fromString(SampleGattAttributes.FAN_OPERATING_STATE),
-                BluetoothGattCharacteristic.FORMAT_UINT8,
+                accelUid,
+                BluetoothGattCharacteristic.FORMAT_SINT16,
                 BluetoothGattCharacteristic.PERMISSION_WRITE
             )
+            var data = ByteArray(1000)
+            openFileInput("accelerometer.csv").use {
+                it?.read(data)
+            }
+            characteristic.setValue(data)
             service.addCharacteristic(characteristic)
             gattServer.addService(service)
             Log.d(

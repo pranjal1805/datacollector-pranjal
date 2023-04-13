@@ -219,10 +219,10 @@ class SensorService : Service(), SensorEventListener {
             }
             "accel" -> {
                 if (accelValues.size == 100) {
-                    openFileOutput("accelerometer_$time.csv", Context.MODE_PRIVATE).use {
+                    openFileOutput("accelerometer.csv", Context.MODE_PRIVATE).use {
                         it?.write(accelValues.toString().toByteArray())
                         Log.d(TAG, "addFileEntry: added entry in accelerometer")
-                        files.add("accelerometer_$time.csv")
+                        files.add("accelerometer.csv")
                     }
                     accelValues.clear()
                 }

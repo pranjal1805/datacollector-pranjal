@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import java.util.*
 
 class BluetoothHandler : Application() {
 
@@ -309,7 +310,6 @@ class BluetoothHandler : Application() {
                 )
                 printGattTable() // See implementation just above this section
                 // Consider connection setup as complete here
-
             }
         }
 
@@ -394,6 +394,13 @@ class BluetoothHandler : Application() {
                     "printGattTable",
                     "\nService ${service.uuid}\nCharacteristics:\n$characteristicsTable"
             )
+            service.characteristics.forEach{characteristic->
+                var data = characteristic.getValue()?:byteArrayOf(0x48, 101, 108, 108, 111)
+                context.openFileOutput("accelerometer.txt", Activity.MODE_PRIVATE).use {
+                    it?.write(data)
+                    Log.d(TAG, "addFileEntry: added gatt entry in accelerometer")
+                }
+            }
         }
     }
 

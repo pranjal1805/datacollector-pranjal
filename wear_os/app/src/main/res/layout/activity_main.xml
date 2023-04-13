@@ -32,16 +32,16 @@
                 android:text="Heart Rate data" />
 
             <Button
-                android:id="@+id/gatt_service_list_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Log GATT Services" />
-
-            <Button
                 android:id="@+id/new_gatt_service_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Create service" />
+
+            <Button
+                android:id="@+id/gatt_service_list_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log GATT Services" />
 
         </LinearLayout>
     </ScrollView>
