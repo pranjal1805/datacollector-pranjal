@@ -82,6 +82,8 @@ class MainActivity : FlutterActivity() {
                 "stopAccel" -> mService.switchAccel(false)
                 "startPPG" -> mService.switchPPG(true)
                 "stopPPG" -> mService.switchPPG(false)
+                "startPedo" -> mService.switchPedo(true)
+                "stopPedo" -> mService.switchPedo(false)
             }
         }
 

@@ -196,7 +196,7 @@ class BluetoothHandler : Application() {
 
     fun showScannedDevices(context: Context) {
         if (deviceList.isEmpty()) {
-            Toast.makeText(context, "Scan First", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Scan First, or turn on location", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, deviceList.toString(), Toast.LENGTH_SHORT).show()
         }

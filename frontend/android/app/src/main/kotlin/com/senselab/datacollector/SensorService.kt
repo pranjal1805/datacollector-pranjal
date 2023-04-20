@@ -24,10 +24,12 @@ class SensorService : Service(), SensorEventListener {
     private lateinit var axisX: BigDecimal
     private lateinit var axisY: BigDecimal
     private lateinit var axisZ: BigDecimal
+    private lateinit var steps: BigDecimal
     private lateinit var gyroValues: ArrayList<String>
     private lateinit var accelValues: ArrayList<String>
     private lateinit var magnetoValues: ArrayList<String>
     private lateinit var ppgValues: ArrayList<String>
+    private lateinit var pedoValues: ArrayList<String>
     private lateinit var ppgX: BigDecimal
     private lateinit var ppgT: BigDecimal
     private var ppgType: Int = 0
@@ -125,6 +127,19 @@ class SensorService : Service(), SensorEventListener {
         }
     }
 
+    fun switchPedo(action: Boolean) {
+        pedoValues = ArrayList()
+        val pedoSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        when (action) {
+            true -> pedoSensor.also { pedo ->
+                sensorManager.registerListener(this, pedo, SensorManager.SENSOR_DELAY_NORMAL)
+            }
+            false -> pedoSensor.also { pedo ->
+                sensorManager.unregisterListener(this, pedo)
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.KITKAT_WATCH)
     private fun findPPG() {
         val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)
@@ -181,6 +196,10 @@ class SensorService : Service(), SensorEventListener {
                     ppgX = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
                     Log.d(TAG, "PPG: $ppgX")
                     addPPGEntry()
+                }
+                Sensor.TYPE_STEP_COUNTER -> {
+                    steps = BigDecimal(p0.values[0].toDouble()).setScale(6, RoundingMode.HALF_EVEN)
+                    Log.d(TAG, "PEDOMETER: $steps")
                 }
             }
         }
