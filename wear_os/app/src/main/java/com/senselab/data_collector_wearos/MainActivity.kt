@@ -27,7 +27,7 @@ class MainActivity : Activity() {
     private lateinit var sensorServiceIntent: Intent
     private lateinit var mService: SensorService
     private var mBound: Boolean = false
-    private val accelUid=UUID.randomUUID()
+    private val accelUid = "37315ec0-638a-4934-a01e-d9e2e815908e"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +48,7 @@ class MainActivity : Activity() {
             sensorServiceIntent = Intent(this, SensorService::class.java).also { intent ->
                 bindService(intent, hearRateDataConnection, BIND_AUTO_CREATE)
             }
-                startForegroundService(sensorServiceIntent)
+            startForegroundService(sensorServiceIntent)
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -99,9 +99,9 @@ class MainActivity : Activity() {
                 BluetoothGattService.SERVICE_TYPE_PRIMARY
             )
             val characteristic = BluetoothGattCharacteristic(
-                accelUid,
+                UUID.fromString(accelUid),
                 BluetoothGattCharacteristic.FORMAT_SINT16,
-                BluetoothGattCharacteristic.PERMISSION_WRITE
+                BluetoothGattCharacteristic.PERMISSION_READ
             )
             var data = ByteArray(1000)
             openFileInput("accelerometer.csv").use {
@@ -109,10 +109,20 @@ class MainActivity : Activity() {
             }
             characteristic.setValue(data)
             service.addCharacteristic(characteristic)
+            var serviceList = gattServer.getServices()
+            serviceList.forEach { item ->
+                if(item.uuid == service.uuid){
+                    gattServer.removeService(item)
+                    Log.d(
+                        "GATT SERVER SERVICES",
+                        "removed duplicate services"
+                    )
+                }
+            }
             gattServer.addService(service)
             Log.d(
                 "GATT SERVER SERVICES",
-                "${UUID.fromString(SampleGattAttributes.FAN_CONTROL_SERVICE_UUID)}"
+                "${characteristic.uuid}"
             )
         }
 
