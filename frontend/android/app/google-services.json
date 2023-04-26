@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "863466183268",
+    "firebase_url": "https://datacollector-project-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "datacollector-project",
+    "storage_bucket": "datacollector-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863466183268:android:e30e0be7bc0102741c1d71",
+        "android_client_info": {
+          "package_name": "com.senselab.datacollector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863466183268-uhcrkfatp1den5n60hipc4411a1336f3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLzWw82ZNfGMqLzbqJ5KMLS-SDgolvvtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863466183268-uhcrkfatp1den5n60hipc4411a1336f3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "863466183268-4fsjdtekeevaf0ri996o4cfiljd41mjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "net.datacollector.fluttersignin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863466183268:android:7ef86120ff97231d1c1d71",
+        "android_client_info": {
+          "package_name": "net.datacollector.fluttersignin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863466183268-uhcrkfatp1den5n60hipc4411a1336f3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLzWw82ZNfGMqLzbqJ5KMLS-SDgolvvtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863466183268-uhcrkfatp1den5n60hipc4411a1336f3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "863466183268-4fsjdtekeevaf0ri996o4cfiljd41mjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "net.datacollector.fluttersignin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

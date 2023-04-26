@@ -1,0 +1,28 @@
+#template for web projects
+
+# folders to ignore virtual env, vscode etc
+env/ 
+.vscode/
+*/__pycache__/
+*/__pycache__/*
+!*/migrations/
+*/migrations/*
+!*/migrations/__init__.py
+gcloud-commands/
+gcloud-commands/*
+# ingore secret config such as secret key. create folder in server
+config_files/
+config_files/*
+# ignore static files -> run python manage.py collectstatic to generate
+static/
+static/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# C extensions
+*.so
+
+
