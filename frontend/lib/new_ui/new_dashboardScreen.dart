@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pedometer/pedometer.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'dart:async';
 import 'package:datacollector/chart.dart';
@@ -32,8 +33,24 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
   List<AccelerometerData> _accelerometerData = [];
   List<GyroscopeData> _gyroscopeData = [];
-
+  late Stream<StepCount> _stepCountStream;
+  String _steps='?';
   int backAndForth = 0;
+
+  void onStepCount(StepCount event) {
+    print(event);
+    setState(() {
+      _steps = event.steps.toString();
+    });
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError: $error');
+    setState(() {
+      _steps = 'Step Count not available';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final accelerometer =
@@ -53,6 +70,28 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
                mainAxisAlignment: MainAxisAlignment.start,
                crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                margin: EdgeInsets.only(top:10),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:  BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF000000).withOpacity(0.05),
+                        offset: const Offset(0,9),
+                        blurRadius: 30,
+                        spreadRadius: 0,
+                      ),
+                      BoxShadow(
+                          color: const Color(0xFF4f4f4f).withOpacity(0.03),
+                          offset: const Offset(0, 2),
+                          blurRadius: 10,
+                          spreadRadius: 0
+                      )
+                    ]),
+                child: Text("Step Count: $_steps")
+              ),
           Container(
             margin: EdgeInsets.only(left: 100,top:10),
             padding: EdgeInsets.all(20),
@@ -340,6 +379,9 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
         },
       ),
     );
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+    if (!mounted) return;
   }
 }
 

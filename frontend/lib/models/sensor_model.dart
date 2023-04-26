@@ -7,12 +7,14 @@ class SensorModel with ChangeNotifier {
   bool _isMagnetoActive = false;
   bool _isPPGActive = false;
   bool _isECGActive = false;
+  bool _isPedoActive = false;
 
   bool get isGyroActive => _isGyroActive;
   bool get isAccelActive => _isAccelActive;
   bool get isMagnetoActive => _isMagnetoActive;
   bool get isPPGActive => _isPPGActive;
   bool get isECGActive => _isECGActive;
+  bool get isPedoActive => _isPedoActive;
 
   toggleSensor(String sensorName) {
     switch (sensorName) {
@@ -51,6 +53,13 @@ class SensorModel with ChangeNotifier {
         notifyListeners();
         break;
 
+      case 'Pedometer':
+        _isPedoActive = !_isPedoActive;
+        androidSensorChannel
+            .invokeMethod(_isPedoActive ? 'startPedo' : 'stopPedo');
+        notifyListeners();
+        break;
+
       default:
         break;
     }
@@ -62,7 +71,8 @@ class SensorModel with ChangeNotifier {
         !isGyroActive &&
         !isMagnetoActive &&
         !isPPGActive &&
-        !isECGActive) {
+        !isECGActive&&
+        !isPedoActive) {
       androidSensorChannel.invokeMethod('serviceOff');
     }
   }

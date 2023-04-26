@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "data_collector_wearos"
-include ':app'
+include ':app', "app"

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.bluetooth.*
+import android.bluetooth.BluetoothGatt
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
@@ -19,6 +20,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import java.util.*
 
 class BluetoothHandler : Application() {
 
@@ -29,6 +31,8 @@ class BluetoothHandler : Application() {
     private var mBluetoothGatt: BluetoothGatt? = null
     private var connectionStatus = BluetoothProfile.STATE_DISCONNECTED
     private lateinit var context: Context
+    private lateinit var activity: Activity
+    private val accelUid = UUID.fromString("37315ec0-638a-4934-a01e-d9e2e815908e")
 
 
     companion object {
@@ -42,6 +46,7 @@ class BluetoothHandler : Application() {
                 Manifest.permission.BLUETOOTH_CONNECT,
                 Manifest.permission.BLUETOOTH,
                 Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.BLUETOOTH_ADMIN,
                 Manifest.permission.BLUETOOTH_SCAN
             )
@@ -49,6 +54,7 @@ class BluetoothHandler : Application() {
             arrayOf(
                 Manifest.permission.BLUETOOTH,
                 Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.BLUETOOTH_ADMIN,
             )
         }
@@ -95,12 +101,13 @@ class BluetoothHandler : Application() {
         }
     }
 
-    fun initBT(context: Context) {
+    fun initBT(context: Context, activity: Activity) {
         if (bluetoothAdapter == null) {
             Log.d(TAG, "initBT: NO BLUETOOTH")
             return
         }
         this.context = context
+        this.activity = activity
         if (!bluetoothAdapter!!.isEnabled) {
             Log.d(TAG, "initBT: enable BT")
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -147,10 +154,10 @@ class BluetoothHandler : Application() {
                     object : ScanCallback() {
                         override fun onScanResult(callbackType: Int, result: ScanResult) {
                             super.onScanResult(callbackType, result)
-                            Log.d(SCAN_TAG, "onScanResult: $result")
-                            if (!deviceList.contains(result.device)) {
-                                deviceList.add(result.device)
-                                deviceIds.add(result.device.address)
+                            if (!deviceList.contains(result.getDevice())) {
+                                Log.d(SCAN_TAG, "onScanResult: $result")
+                                deviceList.add(result.getDevice())
+                                deviceIds.add(result.getDevice().getAddress())
                             }
                         }
                     })
@@ -164,10 +171,10 @@ class BluetoothHandler : Application() {
                 bluetoothLeScanner?.startScan(object : ScanCallback() {
                     override fun onScanResult(callbackType: Int, result: ScanResult) {
                         super.onScanResult(callbackType, result)
-                        Log.d(SCAN_TAG, "onScanResult: $result")
-                        if (!deviceList.contains(result.device)) {
-                            deviceList.add(result.device)
-                            deviceIds.add(result.device.address)
+                        if (!deviceList.contains(result.getDevice())) {
+                            Log.d(SCAN_TAG, "onScanResult: $result")
+                            deviceList.add(result.getDevice())
+                            deviceIds.add(result.getDevice().getAddress())
                         }
                     }
                 })
@@ -178,10 +185,10 @@ class BluetoothHandler : Application() {
                 bluetoothLeScanner?.stopScan(object : ScanCallback() {
                     override fun onScanResult(callbackType: Int, result: ScanResult) {
                         super.onScanResult(callbackType, result)
-                        Log.d(SCAN_TAG, "onScanResult: $result")
-                        if (!deviceList.contains(result.device)) {
-                            deviceList.add(result.device)
-                            deviceIds.add(result.device.address)
+                        if (!deviceList.contains(result.getDevice())) {
+                            Log.d(SCAN_TAG, "onScanResult: $result")
+                            deviceList.add(result.getDevice())
+                            deviceIds.add(result.getDevice().getAddress())
                         }
                     }
                 })
@@ -191,7 +198,7 @@ class BluetoothHandler : Application() {
 
     fun showScannedDevices(context: Context) {
         if (deviceList.isEmpty()) {
-            Toast.makeText(context, "Scan First", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Scan First, or turn on location", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, deviceList.toString(), Toast.LENGTH_SHORT).show()
         }
@@ -202,7 +209,7 @@ class BluetoothHandler : Application() {
             Log.d(SCAN_TAG, deviceList.toString())
             Toast.makeText(context, "Scanned list is empty", Toast.LENGTH_SHORT).show()
         } else {
-            val builder = AlertDialog.Builder(context)
+            val builder = AlertDialog.Builder(activity)
 
             builder.setCancelable(true)
             builder.setTitle("Choose a device to connect")
@@ -228,12 +235,12 @@ class BluetoothHandler : Application() {
                     Manifest.permission.BLUETOOTH_CONNECT
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                checkPermissions(currentActivity, this)
+                checkPermissions(currentActivity, context)
             }
             try {
                 Log.d("DATA_COLLECTOR_BT", "Trying ")
                 deviceList.toMutableList()[which].connectGatt(
-                    context,
+                    activity,
                     false,
                     gattCallback,
                     BluetoothDevice.TRANSPORT_LE
@@ -263,7 +270,7 @@ class BluetoothHandler : Application() {
                                 Manifest.permission.BLUETOOTH_CONNECT
                             ) != PackageManager.PERMISSION_GRANTED
                         ) {
-                            checkPermissions(currentActivity, applicationContext)
+                            checkPermissions(activity, context)
                         }
                         mBluetoothGatt?.discoverServices()
                     }
@@ -274,7 +281,7 @@ class BluetoothHandler : Application() {
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Log.w("BluetoothGattCallback", "Successfully disconnected from $deviceAddress")
                     Toast.makeText(
-                        applicationContext,
+                        activity,
                         "Successfully disconnected from $deviceAddress",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -287,7 +294,7 @@ class BluetoothHandler : Application() {
                 )
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(
-                        applicationContext,
+                        activity,
                         "Error $status encountered for $deviceAddress! Disconnecting...",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -305,7 +312,14 @@ class BluetoothHandler : Application() {
                 )
                 printGattTable() // See implementation just above this section
                 // Consider connection setup as complete here
-
+                services.forEach { service ->
+                    service.characteristics.forEach { characteristic ->
+                        if (characteristic.uuid == accelUid){
+                            Log.d("onServicesDiscovered", "accelUid found!")
+                            gatt.readCharacteristic(characteristic)
+                        }
+                    }
+                }
             }
         }
 
