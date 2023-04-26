@@ -1,7 +1,10 @@
+import 'dart:io';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:camera/camera.dart';
 import 'package:datacollector/widgets/config.dart';
 import 'package:datacollector/widgets/audio_recorder.dart';
 import 'package:datacollector/widgets/camera.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -15,16 +18,17 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:datacollector/accelerometer_data.dart';
 import 'package:datacollector/gyroscope_data.dart';
 import '../line_chart.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-
-
+FirebaseDatabase database = FirebaseDatabase.instance;
 class NewDashboardScreen extends StatefulWidget {
   @override
+  const NewDashboardScreen({Key? key}) : super(key: key);
   State<NewDashboardScreen> createState() => _NewDashboardScreenState();
 }
 
 class _NewDashboardScreenState extends State<NewDashboardScreen> {
-
+  DatabaseReference ref = FirebaseDatabase.instance.ref();
   static const platform = MethodChannel('android/bluetooth');
   List<double>? _accelerometerValues;
   List<double>? _userAccelerometerValues;
@@ -217,8 +221,33 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
             ),
-            onPressed: () {
+            onPressed: () async {
+              //Push the file data to firebase
+              //Push data to firestore
+
+
+              DatabaseReference ref = FirebaseDatabase.instance.ref("Data/123");
               print("length: ${_accelerometerData.length}");
+              String s="",s1="";
+              List<String> Aa;
+              Aa=["X","Y","Z"];
+              for(int i=0;i<_accelerometerData.length;i++){
+                for(int j=0;j<3;j++)
+                  {
+                    s1+=("${Aa[j]}: ${_accelerometerData[i].getValue[j]},");
+                  }
+
+                //s1+=("${_accelerometerData[_accelerometerData.length-1].getValue[i]} ");
+
+                // print("accelerometerData: ${_accelerometerData[i].date} ${_accelerometerData[i].getValue[i]}");
+                // print("gyroscopeData: ${_gyroscopeData[i].toString()}");
+              }
+              await ref.set({
+                "Name": "John",
+                "Date": "27-04-2023",
+                "Values": s1
+              });
+
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ChartScreen(accelerometerData: _accelerometerData, gyroscopeData: _gyroscopeData)),
@@ -252,66 +281,75 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
                 Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      width: 50,
-                      height: 125,
-                      child: new CircularPercentIndicator(
-                        radius: 45.0,
-                        animation: true,
-                        animationDuration: 800,
-                        lineWidth: 8.0,
-                        percent: 0.4,
-                        circularStrokeCap: CircularStrokeCap.butt,
-                        progressColor: Colors.black,
-                      ),
+                    Text(
+                      'Happy', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: Colors.red),
                     ),
                     Text(
-                      'Carbs', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      'Emotion', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     )
                   ],
                 ),
                 Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      width: 50,
-                      height: 125,
-                      child: new CircularPercentIndicator(
-                        radius: 45.0,
-                        animation: true,
-                        animationDuration: 800,
-                        lineWidth: 8.0,
-                        percent: 0.8,
-                        circularStrokeCap: CircularStrokeCap.butt,
-                        progressColor: Colors.black,
-                      ),
+                    Text(
+                        'Hostel', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: Colors.red)
                     ),
                     Text(
-                      'Proteins', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
+                      'Location', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
                     )
                   ],
                 ),
                 Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      width: 50,
-                      height: 125,
-                      child: new CircularPercentIndicator(
-                        radius: 45.0,
-                        animation: true,
-                        animationDuration: 800,
-                        lineWidth: 8.0,
-                        percent: 0.6,
-                        circularStrokeCap: CircularStrokeCap.butt,
-                        progressColor: Colors.black,
-                      ),
+                    Text(
+                        'Pizza', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16 ,color: Colors.red)
                     ),
                     Text(
-                      'Fats', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
+                      'Food', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
                     )
                   ],
                 )
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(20),
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius:  BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF000000).withOpacity(0.05),
+                    offset: const Offset(0,9),
+                    blurRadius: 30,
+                    spreadRadius: 0,
+                  ),
+                  BoxShadow(
+                      color: const Color(0xFF4f4f4f).withOpacity(0.03),
+                      offset: const Offset(0, 2),
+                      blurRadius: 10,
+                      spreadRadius: 0
+                  )
+                ]),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      '266', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: Colors.red),
+                    ),
+                    Text(
+                      'Calories', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    )
+                  ],
+                ),
+
               ],
             ),
           ),

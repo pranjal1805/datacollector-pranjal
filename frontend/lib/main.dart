@@ -1,6 +1,7 @@
 import 'package:cron/cron.dart';
 import 'package:datacollector/models/sensor_model.dart';
 import 'package:datacollector/new_ui/new_main.dart';
+import 'package:datacollector/screens/authp.dart';
 import 'package:datacollector/screens/dashboard_new.dart';
 import 'package:datacollector/screens/gauth.dart';
 import 'package:datacollector/screens/login.dart';
@@ -12,12 +13,38 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'models/model_selection.dart';
+import 'new_ui/new_dashboardScreen.dart';
 import 'screens/models.dart';
 import 'screens/location.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+void uploadStringToFirebase(String stringToUpload) {
+  // Get the Firestore instance
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // Collection path in Firestore where you want to upload the string
+  String collectionPath = 'your_collection_path';
+
+  // Create a document reference with an auto-generated document ID
+  DocumentReference docRef = firestore.collection(collectionPath).doc();
+
+  // Create a map to store the data you want to upload
+  Map<String, dynamic> data = {
+    'stringData': stringToUpload,
+    // Add any other fields you want to upload
+  };
+
+  // Upload the data to Firestore
+  docRef.set(data)
+      .then((value) => print('String uploaded successfully'))
+      .catchError((error) => print('Failed to upload string: $error'));
+}
 
 void main() async {
   await init();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   AwesomeNotifications().initialize(
       null, // icon for your app notification
       [
@@ -173,13 +200,13 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/settings': (context) => SettingsScreen(),
         '/profile': (context) => ProfileScreen(),
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => HomePageWidget(),
+        '/login': (context) => LoginScreen1(),
+        '/home': (context) => NewDashboardScreen(),
         '/models': (context) => ModelsScreen(),
         '/location': (context) => LocationScreen(),
       },
       //Change home screen from here
-      home: LoginScreen(),
+      home: LoginScreen1(),
     );
   }
 }
