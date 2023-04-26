@@ -25,12 +25,11 @@ class MainActivity : FlutterActivity() {
 
         @RequiresApi(Build.VERSION_CODES.S)
         private val PERMISSIONS = arrayOf(
-                Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.BLUETOOTH,
-                Manifest.permission.BLUETOOTH_ADMIN,
-                Manifest.permission.BLUETOOTH_SCAN,
-                Manifest.permission.BODY_SENSORS
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH_SCAN
         )
     }
 
@@ -69,8 +68,8 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
 
         MethodChannel(
-                flutterEngine.dartExecutor.binaryMessenger,
-                CHANNEL
+            flutterEngine.dartExecutor.binaryMessenger,
+            CHANNEL
         ).setMethodCallHandler { call, _ ->
             when (call.method) {
                 "serviceOff" -> stopService(sensorServiceIntent)
@@ -82,20 +81,18 @@ class MainActivity : FlutterActivity() {
                 "stopAccel" -> mService.switchAccel(false)
                 "startPPG" -> mService.switchPPG(true)
                 "stopPPG" -> mService.switchPPG(false)
-                "startPedo" -> mService.switchPedo(true)
-                "stopPedo" -> mService.switchPedo(false)
             }
         }
 
         MethodChannel(
-                flutterEngine.dartExecutor.binaryMessenger,
-                BLUETOOTH_CHANNEL
+            flutterEngine.dartExecutor.binaryMessenger,
+            BLUETOOTH_CHANNEL
         ).setMethodCallHandler { call, _ ->
             if (call.method == "getBluetoothDevices") {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     bluetoothHandler.checkPermissions(activity, applicationContext)
                     bluetoothHandler.initHandler(applicationContext)
-                    bluetoothHandler.initBT(applicationContext, activity)
+                    bluetoothHandler.initBT(applicationContext)
                 }
             }
             if (call.method == "showScannedDevices") {

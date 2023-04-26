@@ -11,50 +11,32 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  List<Map<String, dynamic>> _sensors(BuildContext context) =>
-      [
+  List<Map<String, dynamic>> _sensors(BuildContext context) => [
         {
           'name': 'Gyroscope',
           'description': '',
-          'isActive': context
-              .watch<SensorModel>()
-              .isGyroActive,
+          'isActive': context.watch<SensorModel>().isGyroActive,
         },
         {
           'name': 'Accelerometer',
           'description': '',
-          'isActive': context
-              .watch<SensorModel>()
-              .isAccelActive,
+          'isActive': context.watch<SensorModel>().isAccelActive,
         },
         {
           'name': 'Magnetometer',
           'description': '',
-          'isActive': context
-              .watch<SensorModel>()
-              .isMagnetoActive,
+          'isActive': context.watch<SensorModel>().isMagnetoActive,
         },
         {
           'name': 'PPG',
           'description': '',
-          'isActive': context
-              .watch<SensorModel>()
-              .isPPGActive,
-        },
-        {
-          'name': 'Pedometer',
-          'description': '',
-          'isActive': context
-              .watch<SensorModel>()
-              .isPedoActive,
+          'isActive': context.watch<SensorModel>().isPPGActive,
         },
         {
           'name': 'ECG',
           'description': '',
-          'isActive': context
-              .watch<SensorModel>()
-              .isECGActive,
-        }
+          'isActive': context.watch<SensorModel>().isECGActive,
+        },
       ];
 
   @override

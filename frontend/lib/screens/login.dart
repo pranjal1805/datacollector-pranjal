@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
       home: Scaffold(
         body: Container(
           margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: SingleChildScrollView(
+          child: SafeArea(
               child: Column(
             children: [
               SizedBox(
