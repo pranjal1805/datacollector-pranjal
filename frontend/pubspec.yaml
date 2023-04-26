@@ -59,7 +59,6 @@ dependencies:
   sensors_plus: ^2.0.2
   awesome_notifications: ^0.7.4+1
   cron: ^0.5.1
-  pedometer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

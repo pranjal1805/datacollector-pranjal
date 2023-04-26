@@ -18,7 +18,6 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.senselab.data_collector_wearos.databinding.ActivityMainBinding
-import java.io.File
 import java.util.*
 
 class MainActivity : Activity() {
@@ -27,7 +26,6 @@ class MainActivity : Activity() {
     private lateinit var sensorServiceIntent: Intent
     private lateinit var mService: SensorService
     private var mBound: Boolean = false
-    private val accelUid = "37315ec0-638a-4934-a01e-d9e2e815908e"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,17 +36,10 @@ class MainActivity : Activity() {
 
         binding.accelButton.setOnClickListener {
             sensorServiceIntent = Intent(this, SensorService::class.java).also { intent ->
-                bindService(intent, accelDataConnection, BIND_AUTO_CREATE)
+                bindService(intent, serviceConnection, BIND_AUTO_CREATE)
             }
             startForegroundService(sensorServiceIntent)
 
-        }
-
-        binding.heartRateButton.setOnClickListener {
-            sensorServiceIntent = Intent(this, SensorService::class.java).also { intent ->
-                bindService(intent, hearRateDataConnection, BIND_AUTO_CREATE)
-            }
-            startForegroundService(sensorServiceIntent)
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -99,54 +90,27 @@ class MainActivity : Activity() {
                 BluetoothGattService.SERVICE_TYPE_PRIMARY
             )
             val characteristic = BluetoothGattCharacteristic(
-                UUID.fromString(accelUid),
-                BluetoothGattCharacteristic.FORMAT_SINT16,
-                BluetoothGattCharacteristic.PERMISSION_READ
+                UUID.fromString(SampleGattAttributes.FAN_OPERATING_STATE),
+                BluetoothGattCharacteristic.FORMAT_UINT8,
+                BluetoothGattCharacteristic.PERMISSION_WRITE
             )
-            var data = ByteArray(1000)
-            openFileInput("accelerometer.csv").use {
-                it?.read(data)
-            }
-            characteristic.setValue(data)
             service.addCharacteristic(characteristic)
-            var serviceList = gattServer.getServices()
-            serviceList.forEach { item ->
-                if(item.uuid == service.uuid){
-                    gattServer.removeService(item)
-                    Log.d(
-                        "GATT SERVER SERVICES",
-                        "removed duplicate services"
-                    )
-                }
-            }
             gattServer.addService(service)
             Log.d(
                 "GATT SERVER SERVICES",
-                "${characteristic.uuid}"
+                "${UUID.fromString(SampleGattAttributes.FAN_CONTROL_SERVICE_UUID)}"
             )
         }
 
 
     }
 
-    private val accelDataConnection = object : ServiceConnection {
+    private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
             val binder = service as SensorService.SensorServiceBinder
             mService = binder.getSensorService()
             mBound = true
             mService.switchAccel(true)
-        }
-
-        override fun onServiceDisconnected(className: ComponentName?) {
-            mBound = false
-        }
-    }
-    private val hearRateDataConnection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
-            val binder = service as SensorService.SensorServiceBinder
-            mService = binder.getSensorService()
-            mBound = true
-            mService.switchPPG(true)
         }
 
         override fun onServiceDisconnected(className: ComponentName?) {
