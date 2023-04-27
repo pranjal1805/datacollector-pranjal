@@ -5,6 +5,7 @@ import 'package:datacollector/screens/devices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'new_reminders.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 class NewHome extends StatefulWidget {

@@ -6,7 +6,7 @@ import '../models/model_selection.dart';
 import '../widgets/model_switch.dart';
 
 class ModelsScreen extends StatefulWidget {
-  ModelsScreen({Key? key}) : super(key: key);
+  const ModelsScreen({Key? key}) : super(key: key);
 
   @override
   _ModelsScreenState createState() => _ModelsScreenState();
