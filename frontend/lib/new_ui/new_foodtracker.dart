@@ -119,7 +119,7 @@ class _NewFoodTrackerScreenState extends State<NewFoodTrackerScreen> {
               itemCount: timeIntervalList.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.all(15),
+                  margin: EdgeInsets.all(10),
                   height: 120,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),

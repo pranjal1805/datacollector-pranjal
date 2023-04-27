@@ -51,7 +51,7 @@ class _NewHomeState extends State<NewHome> {
         body: Column(
           children: [
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
@@ -90,12 +90,13 @@ class _NewHomeState extends State<NewHome> {
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(
+          height: 35,
           index: _currentIndex,
           items: <Widget>[
-            Icon(Icons.home_rounded, size: 30, color: Colors.white,),
-            Icon(Icons.note_add, size: 30, color: Colors.white),
-            Icon(Icons.access_time_outlined, size: 30, color: Colors.white),
-            Icon(Icons.watch_outlined, size: 30, color: Colors.white),
+            Icon(Icons.home_rounded, size: 20, color: Colors.white,),
+            Icon(Icons.note_add, size: 20, color: Colors.white),
+            Icon(Icons.access_time_outlined, size: 20, color: Colors.white),
+            Icon(Icons.watch_outlined, size: 20, color: Colors.white),
           ],
           color: Colors.black87,
           buttonBackgroundColor: Colors.blue,
